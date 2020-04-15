@@ -26,8 +26,10 @@ export default class GameScene extends Phaser.Scene {
   create() {
 		this.add.image(400, 300, 'sky')
 		
-		this.createPlatforms()
-		this.createPlayer()
+		const platforms = this.createPlatforms()
+    this.player = this.createPlayer()
+    
+    this.physics.add.collider(this.player, platforms)
 	}
 
   createPlatforms() {
@@ -38,10 +40,12 @@ export default class GameScene extends Phaser.Scene {
     platforms.create(600, 400, GROUND_KEY)
     platforms.create(50, 250, GROUND_KEY)
     platforms.create(750, 220, GROUND_KEY)
+
+    return platforms
   }
 
 	createPlayer() {
-		this.player = this.physics.add.sprite(100, 450, DUDE_KEY)
+		const player = this.player = this.physics.add.sprite(100, 450, DUDE_KEY)
 		this.player.setBounce(0.2)
 		this.player.setCollideWorldBounds(true)
 
@@ -63,6 +67,8 @@ export default class GameScene extends Phaser.Scene {
 			frames: this.anims.generateFrameNumbers(DUDE_KEY, { start: 5, end: 8 }),
 			frameRate: 10,
 			repeat: -1
-		})
+    })
+    
+    return player
 	}
 }
